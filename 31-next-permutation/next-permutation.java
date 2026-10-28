@@ -1,45 +1,34 @@
 class Solution {
     public void nextPermutation(int[] nums) {
-        int ind1=-1;
-        int ind2=-1;
-        // step 1 find breaking point 
-        for(int i=nums.length-2;i>=0;i--){
-            if(nums[i]<nums[i+1]){
-                ind1=i;
+        int i = nums.length - 2;
+        int j = nums.length - 1;
+        while(i >= 0){
+            if(nums[i] < nums[i+1]){
+                while(nums[j] <= nums[i]){
+                    j--;
+                }
                 break;
             }
+            else{
+                i--;
+            }
         }
-        // if there is no breaking  point 
-        if(ind1==-1){
-            reverse(nums,0);
+        if(i >= 0){
+            int temp = nums[j];
+            nums[j] = nums[i];
+            nums[i] = temp;
         }
         
-        else{
-            // step 2 find next greater element and swap with ind2
-            for(int i=nums.length-1;i>=0;i--){
-                if(nums[i]>nums[ind1]){
-                    ind2=i;
-                    break;
-                }
-            }
+        i = i + 1;
+        j = nums.length - 1;
+        
 
-            swap(nums,ind1,ind2);
-            // step 3 reverse the rest right half
-            reverse(nums,ind1+1);
-        }
-    }
-    void swap(int[] nums,int i,int j){
-        int temp=nums[i];
-        nums[i]=nums[j];
-        nums[j]=temp;
-    }
-    void reverse(int[] nums,int start){
-        int i=start;
-        int j=nums.length-1;
-        while(i<j){
-            swap(nums,i,j);
-            i++;
-            j--;
+        while(i < j){
+            int temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
+            i ++;
+            j --;
         }
     }
 }
